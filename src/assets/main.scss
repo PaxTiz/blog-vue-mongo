@@ -1,0 +1,18 @@
+.btn {
+    padding: 8px 16px;
+    color: #fff;
+    font-weight: bold;
+    font-size: .8em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+
+    &.btn-blue {
+        background-color: cornflowerblue;
+    }
+
+    &.btn-red {
+        background-color: brown;
+    }
+}

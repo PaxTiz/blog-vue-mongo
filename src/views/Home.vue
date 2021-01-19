@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import PostList from "@/views/PostList";
+import PostList from "@/components/posts/PostList";
 
 export default {
   name: 'Home',
