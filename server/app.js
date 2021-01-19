@@ -5,10 +5,11 @@ const mongoose = require('mongoose')
 const Post = require('./models/Post')
 
 const app = express()
-app.use(bodyParser.json({extended: true}))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 
-const mongoosePromise = async () => await mongoose.connect('mongodb://localhost/vue-test', {
+mongoose.connect('mongodb://localhost/vue-test', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -19,6 +20,26 @@ app.get('/', (req, res) => {
     Post.find({}, (err, docs) => {
         res.json({
             'posts': docs
+        })
+    })
+})
+
+app.post('/', (req, res) => {
+    const data = req.body
+    const post = new Post({
+        title: data.title,
+        description: data.description,
+        date: data.date
+    })
+    post.save((err) => {
+        if(err) {
+            res.json({
+                error: err.message
+            })
+        }
+        res.json({
+            message: "Article crée",
+            post: post
         })
     })
 })
