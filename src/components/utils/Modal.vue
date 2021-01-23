@@ -28,6 +28,7 @@ export default {
 }
 
 .modal {
+    display: none;
     position: absolute;
     left: 300px;
     right: 300px;
@@ -38,12 +39,13 @@ export default {
     background-color: #555555;
     border-radius: 16px;
     transform: translateY(-100vh);
-    transition: transform .3s;
+    transition: all .3s;
 }
 
 .modal.open {
+    display: block;
     transform: translateY(-100px);
-    transition: transform .3s;
+    transition: all .3s;
 }
 
 .modal-title {
