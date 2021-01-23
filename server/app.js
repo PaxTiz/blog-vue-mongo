@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const Post = require('./models/Post')
+const User = require('./models/User')
 
 const app = express()
 app.use(bodyParser.json())
@@ -41,6 +42,31 @@ app.post('/', (req, res) => {
             message: "Article crée",
             post: post
         })
+    })
+})
+
+// TODO: Vérifier qu'un utilsateur n'a pas déjo le même mot de passe ou email
+// TODO: Implémenter l'authentification avec JWT
+app.post('/register', (req, res) => {
+    const data = req.body
+    const user = new User({
+        username: data.username,
+        email: data.email,
+        password: data.password
+    })
+    user.save((err) => {
+        if(err) {
+            console.error("ERROR = " + err)
+            res.status(404).json({
+                error: err.message
+            })
+        } else {
+            console.log("SUCCESS")
+            res.status(201).json({
+                message: "User created",
+                user: user
+            })
+        }
     })
 })
 

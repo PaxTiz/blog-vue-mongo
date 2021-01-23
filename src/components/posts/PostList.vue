@@ -1,14 +1,17 @@
 <template>
     <div>
-        <h1>Les dernières actualités</h1>
-        <button @click="toggleModal" class="btn btn-blue">Une modale parce que c'est cool !</button>
+        <h1>Latest news</h1>
+        <button @click="toggleModal" class="btn btn-blue">A modal box because it's so funny 🤡 !</button>
+        <button @click="triggerNotification" class="btn btn-red">Show a notification 🤡 !</button>
         <Modal :open="open" :onclick="toggleModal">
             <template #title>Hello World</template>
-            <template #body>Salut la planète</template>
+            <template #body>Hi how are you today ?</template>
         </Modal>
 
-        <h2 v-if="loading">Chargement des données...</h2>
-        <div class="posts-list">
+        <Notification :open="notify" :text="notificationText" :delete="triggerNotification" />
+
+        <h2 v-if="loading">Loading data...</h2>
+        <div v-else class="posts-list">
             <div v-for="post in posts" v-bind:key="post._id">
                 <PostItem v-bind:post="post"/>
             </div>
@@ -20,16 +23,19 @@
 import PostItem from "@/components/posts/PostItem";
 import Modal from "@/components/utils/Modal";
 import "@/assets/main.scss"
+import Notification from "@/components/utils/Notification";
 
 export default {
     name: "PostList",
-    components: {Modal, PostItem},
+    components: {Notification, Modal, PostItem},
     data: function () {
         return {
             posts: [],
             loading: true,
             error: "",
-            open: false
+            open: false,
+            notify: false,
+            notificationText: "Vous avez un  nouveau message !"
         }
     },
     async mounted() {
@@ -39,9 +45,12 @@ export default {
             .finally(() => this.loading = false)
     },
     methods: {
-        toggleModal: function() {
+        toggleModal() {
             this.open = !this.open
-        }
+        },
+        triggerNotification() {
+            this.notify = !this.notify
+        },
     }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="notification">
+    <div v-if="open" class="notification">
         <p>
             {{ text }}
             <span @click="this.delete">x</span>
@@ -11,6 +11,7 @@
 export default {
     name: "Notification",
     props: {
+        open: Boolean,
         text: String,
         delete: Function
     }
