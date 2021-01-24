@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const Post = require('./models/Post')
 const User = require('./models/User')
@@ -45,8 +46,7 @@ app.post('/', (req, res) => {
     })
 })
 
-// TODO: Vérifier qu'un utilsateur n'a pas déjo le même mot de passe ou email
-// TODO: Implémenter l'authentification avec JWT
+// TODO: Encrypt the password
 app.post('/register', (req, res) => {
     const data = req.body
     const user = new User({
@@ -57,14 +57,18 @@ app.post('/register', (req, res) => {
     user.save((err) => {
         if(err) {
             console.error("ERROR = " + err)
-            res.status(404).json({
+            return res.status(404).json({
                 error: err.message
             })
         } else {
             console.log("SUCCESS")
-            res.status(201).json({
+            const token = jwt.sign({
+                data: user
+            }, 'secret', {expiresIn: '2h'})
+            return res.status(201).json({
                 message: "User created",
-                user: user
+                user,
+                token
             })
         }
     })

@@ -1,8 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
+
+const checkAuth = async (to, from, next) => {
+    if(['Login', 'Register', 'Home'].includes(to.name))
+        next()
+    else if(!store.state.isAuth || store.state.user === {})
+        await router.push('/login')
+    else
+        next()
+}
 
 const routes = [
     {
@@ -40,5 +50,6 @@ const routes = [
 const router = new VueRouter({
     routes
 })
+router.beforeEach(checkAuth)
 
 export default router

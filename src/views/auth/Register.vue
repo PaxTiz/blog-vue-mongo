@@ -76,7 +76,16 @@ export default {
                         password: this.password
                     })
                 })
-                .then(res => console.log(res))
+                .then(async (res) => {
+                    const data = await res.json()
+                    console.log(data)
+                    this.$store.commit({
+                        type: 'login',
+                        user: data.user,
+                        token: data.token
+                    })
+                    await this.$router.replace('/')
+                })
                 .catch((err) => this.serverError = err)
                 console.info("OK - Send form !")
             }

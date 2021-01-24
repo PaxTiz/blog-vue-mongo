@@ -7,8 +7,11 @@
                     <router-link to="/about">About</router-link>
                     <router-link to="/contact">Contact</router-link>
 
-                    <router-link to="/login" class="right">Login</router-link>
-                    <router-link to="/register">Register</router-link>
+                    <router-link v-if="isAuth" to="/account" class="right loggued">{{ user.username }}</router-link>
+                    <div  v-else>
+                        <router-link to="/login" class="right">Login</router-link>
+                        <router-link to="/register">Register</router-link>
+                    </div>
                 </nav>
             </div>
 
@@ -17,6 +20,17 @@
         <router-view/>
     </div>
 </template>
+
+<script>
+export default {
+    data: function() {
+        return {
+            isAuth: this.$store.state.isAuth,
+            user: this.$store.state.user
+        }
+    }
+}
+</script>
 
 <style>
 
@@ -72,5 +86,10 @@ header h1 {
     text-align: center;
     font-size: 1.5em;
     background-color: skyblue;
+}
+
+.loggued {
+    font-weight: bold;
+    text-shadow: 0 3px 0 0 #333333;
 }
 </style>
